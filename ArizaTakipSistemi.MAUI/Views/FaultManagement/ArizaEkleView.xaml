@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ============================================================
+     Sorumlu Geliştirici: SAİD (Said_CrudUI)
+     Dosya: Views/FaultManagement/ArizaEkleView.xaml
+     Açıklama: Yeni Arıza Ekleme Ekranı
+     ============================================================ -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ArizaTakipSistemi.MAUI.Views.FaultManagement.ArizaEkleView"
+             Title="Yeni Arıza Kaydı"
+             BackgroundColor="#1a1a2e">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+
+            <Label Text="📝 Yeni Arıza Kaydı" FontSize="22" FontAttributes="Bold" TextColor="#e94560"/>
+
+            <!-- Cihaz Seçimi -->
+            <Label Text="Cihaz" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Picker x:Name="CihazPicker" Title="Cihaz Seçin" TextColor="White" TitleColor="#667788"/>
+            </Frame>
+
+            <!-- Arıza Tanımı -->
+            <Label Text="Arıza Tanımı" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Editor x:Name="ArizaTanimiEditor" Placeholder="Arızayı detaylı açıklayın (min 10 karakter)"
+                        PlaceholderColor="#667788" TextColor="White" HeightRequest="100" AutoSize="TextChanges"/>
+            </Frame>
+
+            <!-- Kategori -->
+            <Label Text="Kategori" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Picker x:Name="KategoriPicker" Title="Kategori Seçin" TextColor="White" TitleColor="#667788">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Donanım</x:String>
+                            <x:String>Yazılım</x:String>
+                            <x:String>Ekran</x:String>
+                            <x:String>Batarya</x:String>
+                            <x:String>Ağ/İnternet</x:String>
+                            <x:String>Diğer</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </Frame>
+
+            <!-- Öncelik -->
+            <Label Text="Öncelik Durumu" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Picker x:Name="OncelikPicker" Title="Öncelik Seçin" TextColor="White" TitleColor="#667788">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Düşük</x:String>
+                            <x:String>Normal</x:String>
+                            <x:String>Yüksek</x:String>
+                            <x:String>Acil</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </Frame>
+
+            <!-- Atanacak Teknisyen -->
+            <Label Text="Atanacak Teknisyen (Opsiyonel)" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Picker x:Name="TeknisyenPicker" Title="Teknisyen Seçin" TextColor="White" TitleColor="#667788"/>
+            </Frame>
+
+            <!-- Tahmini Maliyet -->
+            <Label Text="Tahmini Maliyet (₺)" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Entry x:Name="MaliyetEntry" Placeholder="0.00" PlaceholderColor="#667788"
+                       TextColor="White" Keyboard="Numeric"/>
+            </Frame>
+
+            <!-- Kaydet Butonu -->
+            <Button x:Name="KaydetButton" Text="ARIZA KAYDINI OLUŞTUR"
+                    FontSize="16" FontAttributes="Bold"
+                    BackgroundColor="#e94560" TextColor="White"
+                    CornerRadius="10" HeightRequest="50"
+                    Clicked="KaydetButton_Clicked"/>
+
+            <Label x:Name="SonucMesaji" FontSize="14" HorizontalOptions="Center" IsVisible="False"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

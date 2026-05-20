@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ============================================================
+     Sorumlu Geliştirici: SAİD (Said_CrudUI)
+     Dosya: Views/FaultManagement/ArizaListesiView.xaml
+     Açıklama: Arıza Listesi Ekranı (Ana Sayfa)
+     ============================================================ -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ArizaTakipSistemi.MAUI.Views.FaultManagement.ArizaListesiView"
+             Title="Arıza Listesi"
+             BackgroundColor="#1a1a2e">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="15" RowSpacing="10">
+
+        <!-- Üst Bilgi Çubuğu -->
+        <HorizontalStackLayout Grid.Row="0" Spacing="10">
+            <Label Text="🔧 Arıza Takip" FontSize="22" FontAttributes="Bold" TextColor="#e94560" VerticalOptions="Center"/>
+            <Label x:Name="KullaniciBilgi" FontSize="13" TextColor="#8899aa" VerticalOptions="Center"/>
+        </HorizontalStackLayout>
+
+        <!-- Filtre Butonları -->
+        <ScrollView Grid.Row="1" Orientation="Horizontal">
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="Tümü" BackgroundColor="#16213e" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12"
+                        Clicked="FiltreTumu_Clicked"/>
+                <Button Text="Beklemede" BackgroundColor="#e67e22" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12"
+                        Clicked="FiltreBeklemede_Clicked"/>
+                <Button Text="Devam Ediyor" BackgroundColor="#3498db" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12"
+                        Clicked="FiltreDevamEdiyor_Clicked"/>
+                <Button Text="Tamamlandı" BackgroundColor="#27ae60" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12"
+                        Clicked="FiltreTamamlandi_Clicked"/>
+                <Button Text="+ Yeni Arıza" BackgroundColor="#e94560" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12"
+                        Clicked="YeniAriza_Clicked"/>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- Arıza Listesi -->
+        <CollectionView x:Name="ArizaCollectionView" Grid.Row="2">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                    <Label Text="📋" FontSize="50" HorizontalOptions="Center"/>
+                    <Label Text="Henüz arıza kaydı yok" FontSize="16" TextColor="#8899aa" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#16213e" BorderColor="#2a2a4a" CornerRadius="12"
+                           Padding="15" Margin="0,5" HasShadow="True">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ArizaDetay_Tapped" CommandParameter="{Binding ArizaId}"/>
+                        </Frame.GestureRecognizers>
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+                            <!-- Başlık -->
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="{Binding ArizaTanimi}"
+                                   FontSize="15" FontAttributes="Bold" TextColor="White"
+                                   LineBreakMode="TailTruncation" MaxLines="1"/>
+                            <!-- Durum Badge -->
+                            <Frame Grid.Row="0" Grid.Column="1"
+                                   BackgroundColor="{Binding DurumRengi}" CornerRadius="8"
+                                   Padding="8,4" HasShadow="False" BorderColor="Transparent">
+                                <Label Text="{Binding DurumAdi}" FontSize="11" TextColor="White" FontAttributes="Bold"/>
+                            </Frame>
+                            <!-- Cihaz Bilgisi -->
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Spacing="15">
+                                <Label Text="{Binding Cihaz.CihazBilgisi, StringFormat='📱 {0}'}" FontSize="13" TextColor="#aabbcc"/>
+                                <Label Text="{Binding Kategori, StringFormat='📂 {0}'}" FontSize="13" TextColor="#aabbcc"/>
+                            </HorizontalStackLayout>
+                            <!-- Alt Bilgi -->
+                            <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Spacing="15">
+                                <Label Text="{Binding OncelikAdi, StringFormat='⚡ {0}'}" FontSize="12" TextColor="{Binding OncelikRengi}"/>
+                                <Label Text="{Binding OlusturulmaTarihi, StringFormat='📅 {0:dd.MM.yyyy}'}" FontSize="12" TextColor="#667788"/>
+                                <Label Text="{Binding TahminiMaliyet, StringFormat='💰 {0:C}'}" FontSize="12" TextColor="#44bb88"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

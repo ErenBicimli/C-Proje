@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ============================================================
+     Sorumlu Geliştirici: EREN (Eren_AuthUI)
+     Dosya: Views/Auth/LoginView.xaml
+     Açıklama: Giriş Ekranı (Login)
+     ============================================================ -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ArizaTakipSistemi.MAUI.Views.Auth.LoginView"
+             Title="Giriş Yap"
+             BackgroundColor="#1a1a2e">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+            <!-- Logo / Başlık -->
+            <Frame BackgroundColor="#16213e" BorderColor="Transparent" CornerRadius="20" Padding="30" HasShadow="True">
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Label Text="🔧" FontSize="60" HorizontalOptions="Center"/>
+                    <Label Text="Arıza Takip Sistemi"
+                           FontSize="28" FontAttributes="Bold"
+                           TextColor="#e94560" HorizontalOptions="Center"/>
+                    <Label Text="Teknik Servis Yönetim Paneli"
+                           FontSize="14" TextColor="#8899aa" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- E-posta -->
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="12" Padding="5" HasShadow="False">
+                <Entry x:Name="EmailEntry"
+                       Placeholder="E-posta adresinizi girin"
+                       PlaceholderColor="#667788"
+                       TextColor="White"
+                       Keyboard="Email"
+                       FontSize="16"/>
+            </Frame>
+
+            <!-- Şifre -->
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="12" Padding="5" HasShadow="False">
+                <Entry x:Name="SifreEntry"
+                       Placeholder="Şifrenizi girin"
+                       PlaceholderColor="#667788"
+                       TextColor="White"
+                       IsPassword="True"
+                       FontSize="16"/>
+            </Frame>
+
+            <!-- Giriş Butonu -->
+            <Button x:Name="GirisButton"
+                    Text="GİRİŞ YAP"
+                    FontSize="18" FontAttributes="Bold"
+                    BackgroundColor="#e94560"
+                    TextColor="White"
+                    CornerRadius="12"
+                    HeightRequest="55"
+                    Clicked="GirisButton_Clicked"/>
+
+            <!-- Hata Mesajı -->
+            <Label x:Name="HataMesaji"
+                   TextColor="#ff6b6b"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   IsVisible="False"/>
+
+            <!-- Bilgi -->
+            <Label Text="Test: admin@arizatakip.com / admin123"
+                   FontSize="11" TextColor="#556677"
+                   HorizontalOptions="Center"/>
+
+            <!-- Hesap Oluştur -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <Label Text="Hesabınız yok mu?" TextColor="#8899aa" FontSize="14" VerticalOptions="Center"/>
+                <Button Text="Hesap Oluştur" BackgroundColor="Transparent" TextColor="#27ae60"
+                        FontSize="14" FontAttributes="Bold" Padding="0"
+                        Clicked="HesapOlustur_Clicked"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

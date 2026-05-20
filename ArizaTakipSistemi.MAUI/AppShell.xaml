@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- ============================================================
+     Sorumlu Geliştirici: EREN (Eren_AuthUI)
+     Dosya: AppShell.xaml
+     Açıklama: Uygulamanın navigasyon yapısı.
+     ============================================================ -->
+<Shell
+    x:Class="ArizaTakipSistemi.MAUI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:auth="clr-namespace:ArizaTakipSistemi.MAUI.Views.Auth"
+    xmlns:fault="clr-namespace:ArizaTakipSistemi.MAUI.Views.FaultManagement"
+    Title="Arıza Takip Sistemi"
+    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutBackgroundColor="#16213e">
+
+    <Shell.FlyoutHeader>
+        <VerticalStackLayout Padding="20" BackgroundColor="#0f3460" Spacing="5">
+            <Label Text="🔧" FontSize="40" HorizontalOptions="Center"/>
+            <Label Text="Arıza Takip Sistemi" FontSize="18" FontAttributes="Bold" TextColor="#e94560" HorizontalOptions="Center"/>
+            <Label x:Name="KullaniciLabel" FontSize="13" TextColor="#8899aa" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </Shell.FlyoutHeader>
+
+    <!-- Ana Sayfalar (Tab) -->
+    <FlyoutItem Title="🏠 Arıza Listesi" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Arıza Listesi" ContentTemplate="{DataTemplate fault:ArizaListesiView}" Route="ArizaListesi"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="📱 Cihaz Ekle">
+        <ShellContent Title="Cihaz Ekle" ContentTemplate="{DataTemplate fault:CihazEkleView}" Route="CihazEkle"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="🔑 Şifre Değiştir">
+        <ShellContent Title="Şifre Değiştir" ContentTemplate="{DataTemplate auth:PasswordChangeView}" Route="SifreDegistir"/>
+    </FlyoutItem>
+
+    <!-- Çıkış Yap -->
+    <MenuItem Text="🚪 Çıkış Yap" Clicked="CikisYap_Clicked"/>
+
+</Shell>

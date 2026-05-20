@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ============================================================
+     Sorumlu Geliştirici: SAİD (Said_CrudUI)
+     Dosya: Views/FaultManagement/CihazEkleView.xaml
+     Açıklama: Yeni Cihaz Ekleme Ekranı
+     ============================================================ -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ArizaTakipSistemi.MAUI.Views.FaultManagement.CihazEkleView"
+             Title="Yeni Cihaz Kaydı"
+             BackgroundColor="#1a1a2e">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+
+            <Label Text="📱 Yeni Cihaz Kaydı" FontSize="22" FontAttributes="Bold" TextColor="#e94560"/>
+
+            <!-- Marka -->
+            <Label Text="Marka *" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Entry x:Name="MarkaEntry" Placeholder="Örn: Apple, Samsung" PlaceholderColor="#667788" TextColor="White"/>
+            </Frame>
+
+            <!-- Model -->
+            <Label Text="Model *" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Entry x:Name="ModelEntry" Placeholder="Örn: iPhone 15, Galaxy S24" PlaceholderColor="#667788" TextColor="White"/>
+            </Frame>
+
+            <!-- Seri Numarası -->
+            <Label Text="Seri Numarası *" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Entry x:Name="SeriNoEntry" Placeholder="Cihaz seri numarası" PlaceholderColor="#667788" TextColor="White"/>
+            </Frame>
+
+            <!-- Cihaz Türü -->
+            <Label Text="Cihaz Türü *" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Picker x:Name="CihazTuruPicker" Title="Cihaz Türü Seçin" TextColor="White" TitleColor="#667788">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Laptop</x:String>
+                            <x:String>Telefon</x:String>
+                            <x:String>Tablet</x:String>
+                            <x:String>Masaüstü Bilgisayar</x:String>
+                            <x:String>Yazıcı</x:String>
+                            <x:String>Monitor</x:String>
+                            <x:String>Diğer</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </Frame>
+
+            <!-- Müşteri Adı -->
+            <Label Text="Müşteri Adı *" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Entry x:Name="MusteriAdiEntry" Placeholder="Müşterinin adı soyadı" PlaceholderColor="#667788" TextColor="White"/>
+            </Frame>
+
+            <!-- Müşteri Telefon -->
+            <Label Text="Müşteri Telefon *" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Entry x:Name="MusteriTelefonEntry" Placeholder="05xx xxx xx xx" PlaceholderColor="#667788" TextColor="White" Keyboard="Telephone"/>
+            </Frame>
+
+            <!-- Müşteri E-posta -->
+            <Label Text="Müşteri E-posta" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Entry x:Name="MusteriEmailEntry" Placeholder="ornek@email.com" PlaceholderColor="#667788" TextColor="White" Keyboard="Email"/>
+            </Frame>
+
+            <!-- Müşteri Adres -->
+            <Label Text="Müşteri Adres" TextColor="#8899aa" FontSize="13"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                <Editor x:Name="MusteriAdresEditor" Placeholder="Adres bilgisi (opsiyonel)" PlaceholderColor="#667788" TextColor="White" HeightRequest="60"/>
+            </Frame>
+
+            <!-- Kaydet -->
+            <Button x:Name="KaydetButton" Text="CİHAZ KAYDINI OLUŞTUR"
+                    FontSize="16" FontAttributes="Bold"
+                    BackgroundColor="#e94560" TextColor="White"
+                    CornerRadius="10" HeightRequest="50"
+                    Clicked="KaydetButton_Clicked"/>
+
+            <Label x:Name="SonucMesaji" FontSize="14" HorizontalOptions="Center" IsVisible="False"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
