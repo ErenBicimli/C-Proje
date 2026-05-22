@@ -18,6 +18,7 @@ namespace ArizaTakipSistemi.MAUI.Models
         public string? MusteriAdres { get; set; }
         public string? MusteriEmail { get; set; }
         public DateTime OlusturulmaTarihi { get; set; }
+        public DateTime KabulTarihi { get; set; } = DateTime.Now;
 
         public string CihazBilgisi => $"{Marka} {Model}";
     }

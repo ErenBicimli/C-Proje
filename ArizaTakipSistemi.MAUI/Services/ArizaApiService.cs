@@ -107,9 +107,12 @@ namespace ArizaTakipSistemi.MAUI.Services
                     musteriAdi = cihaz.MusteriAdi,
                     musteriTelefon = cihaz.MusteriTelefon,
                     musteriEmail = cihaz.MusteriEmail,
-                    musteriAdres = cihaz.MusteriAdres
+                    musteriAdres = cihaz.MusteriAdres,
+                    // Kabul tarihi de gönderilir. Backend'de alan eklenince otomatik kaydedilir,
+                    // alan yoksa API bu fazladan veriyi sessizce yok sayar (hata vermez).
+                    kabulTarihi = cihaz.KabulTarihi
                 };
-                
+
                 var response = await _httpClient.PostAsJsonAsync("api/cihazlar", payload);
                 if (response.IsSuccessStatusCode)
                     return await response.Content.ReadFromJsonAsync<CihazDto>();
@@ -133,7 +136,7 @@ namespace ArizaTakipSistemi.MAUI.Services
                     musteriEmail = cihaz.MusteriEmail,
                     musteriAdres = cihaz.MusteriAdres
                 };
-                
+
                 var response = await _httpClient.PutAsJsonAsync($"api/cihazlar/{id}", payload);
                 if (response.IsSuccessStatusCode)
                     return await response.Content.ReadFromJsonAsync<CihazDto>();
@@ -186,7 +189,7 @@ namespace ArizaTakipSistemi.MAUI.Services
                     oncelikDurumu = ariza.OncelikDurumu,
                     tahminiMaliyet = ariza.TahminiMaliyet
                 };
-                
+
                 var response = await _httpClient.PostAsJsonAsync("api/arizalar", payload);
                 if (response.IsSuccessStatusCode)
                 {
@@ -197,9 +200,9 @@ namespace ArizaTakipSistemi.MAUI.Services
                 return null;
             }
             catch (Exception ex)
-            { 
+            {
                 System.Diagnostics.Debug.WriteLine("ARIZA EKLE HATA: " + ex.Message);
-                return null; 
+                return null;
             }
         }
 
@@ -218,7 +221,7 @@ namespace ArizaTakipSistemi.MAUI.Services
                     yapilanIslem = ariza.YapilanIslem,
                     tahminiMaliyet = ariza.TahminiMaliyet
                 };
-                
+
                 var response = await _httpClient.PutAsJsonAsync($"api/arizalar/{id}", payload);
                 if (response.IsSuccessStatusCode)
                     return await response.Content.ReadFromJsonAsync<ArizaDto>();
