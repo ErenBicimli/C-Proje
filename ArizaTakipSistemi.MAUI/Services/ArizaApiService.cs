@@ -18,6 +18,17 @@ namespace ArizaTakipSistemi.MAUI.Services
             _httpClient = httpClient;
         }
 
+        // AUDIT LOG için: Yazma (POST/PUT/DELETE) isteklerinde, işi yapan
+        // kullanıcının kimliğini "X-Kullanici-Id" header'ı olarak API'ye gönderir.
+        // API tarafı bu header'ı okuyup Loglar tablosuna kaydeder.
+        private void KullaniciIdHeaderAyarla()
+        {
+            var kid = Preferences.Get("KullaniciId", 0);
+            _httpClient.DefaultRequestHeaders.Remove("X-Kullanici-Id");
+            if (kid > 0)
+                _httpClient.DefaultRequestHeaders.Add("X-Kullanici-Id", kid.ToString());
+        }
+
         // ===================== Kullanıcı İşlemleri =====================
 
         public async Task<KullaniciDto?> GirisYapAsync(string email, string sifre)
@@ -179,6 +190,7 @@ namespace ArizaTakipSistemi.MAUI.Services
         {
             try
             {
+                KullaniciIdHeaderAyarla(); // audit log için
                 var payload = new
                 {
                     cihazId = ariza.CihazId,
@@ -210,6 +222,7 @@ namespace ArizaTakipSistemi.MAUI.Services
         {
             try
             {
+                KullaniciIdHeaderAyarla(); // audit log için
                 var payload = new
                 {
                     cihazId = ariza.CihazId,
@@ -234,6 +247,7 @@ namespace ArizaTakipSistemi.MAUI.Services
         {
             try
             {
+                KullaniciIdHeaderAyarla(); // audit log için
                 var response = await _httpClient.DeleteAsync($"api/arizalar/{id}");
                 return response.IsSuccessStatusCode;
             }
