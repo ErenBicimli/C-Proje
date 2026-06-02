@@ -51,6 +51,26 @@
                 </Picker>
             </Frame>
 
+            <!-- ===== Cihaz Kabul Tarihi ve Saati =====
+                 DatePicker tarihi, TimePicker saati seçer. İkisi koda birleştirilip
+                 KabulTarihi olarak gönderilir. -->
+            <Label Text="Cihaz Kabul Tarihi ve Saati" TextColor="#8899aa" FontSize="13"/>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0" Spacing="3">
+                    <Label Text="📅 Tarih" TextColor="#667788" FontSize="11"/>
+                    <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                        <DatePicker x:Name="KabulTarihiPicker" TextColor="White" Format="dd.MM.yyyy"/>
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="3">
+                    <Label Text="🕒 Saat" TextColor="#667788" FontSize="11"/>
+                    <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                        <TimePicker x:Name="KabulSaatiPicker" TextColor="White" Format="HH:mm"/>
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+
             <!-- Müşteri Adı -->
             <Label Text="Müşteri Adı *" TextColor="#8899aa" FontSize="13"/>
             <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">

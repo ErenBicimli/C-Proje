@@ -19,6 +19,14 @@ public partial class CihazEkleView : ContentPage
         _apiService = apiService;
     }
 
+    // Sayfa açılınca kabul tarihi/saatini "şu an" olarak hazırlar (kullanıcı isterse değiştirir).
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        KabulTarihiPicker.Date = DateTime.Today;
+        KabulSaatiPicker.Time = DateTime.Now.TimeOfDay;
+    }
+
     private async void KaydetButton_Clicked(object sender, EventArgs e)
     {
         var marka = MarkaEntry.Text?.Trim();
@@ -39,6 +47,25 @@ public partial class CihazEkleView : ContentPage
 
         KaydetButton.IsEnabled = false;
 
+        // SERİ NUMARASI KONTROLÜ:
+        // Kaydetmeden önce mevcut cihazları çekip aynı seri numarası var mı diye LINQ ile bakarız.
+        // Varsa kullanıcıya nazik uyarı verir, API'ye hiç gitmez (programın çökmesini engeller).
+        var mevcutCihazlar = await _apiService.TumCihazlariGetirAsync();
+        bool seriNoVarMi = mevcutCihazlar.Any(c =>
+            string.Equals(c.SeriNumarasi?.Trim(), seriNo, StringComparison.OrdinalIgnoreCase));
+
+        if (seriNoVarMi)
+        {
+            SonucMesaji.Text = "Bu seri numarası zaten kayıtlı! Lütfen farklı bir seri numarası girin.";
+            SonucMesaji.TextColor = Colors.Orange;
+            SonucMesaji.IsVisible = true;
+            KaydetButton.IsEnabled = true; // butonu tekrar aktif et
+            return;
+        }
+
+        // DatePicker'dan gelen tarih ile TimePicker'dan gelen saati tek bir DateTime'da birleştir.
+        var kabulTarihi = KabulTarihiPicker.Date.Date + KabulSaatiPicker.Time;
+
         var cihaz = new CihazDto
         {
             Marka = marka,
@@ -48,7 +75,8 @@ public partial class CihazEkleView : ContentPage
             MusteriAdi = musteriAdi,
             MusteriTelefon = musteriTelefon,
             MusteriEmail = MusteriEmailEntry.Text?.Trim(),
-            MusteriAdres = MusteriAdresEditor.Text?.Trim()
+            MusteriAdres = MusteriAdresEditor.Text?.Trim(),
+            KabulTarihi = kabulTarihi
         };
 
         var sonuc = await _apiService.CihazEkleAsync(cihaz);
