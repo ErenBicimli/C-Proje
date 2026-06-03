@@ -21,12 +21,11 @@
             <Label Grid.Column="0" Text="🔧 Arıza Takip" FontSize="20" FontAttributes="Bold"
                    TextColor="#e94560" VerticalOptions="Center"/>
             <!-- Ortada: giriş yapılan ROL (büyük) + altında isim -->
-            <!-- Margin="0,0,30,0" ifadesi sağ taraftan 30 birim boşluk bırakarak layout'u sola iter -->
-<VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Margin="0,0,30,0" Spacing="0">
-    <Label x:Name="RolLabel" Text="TEKNİKER" FontSize="16" FontAttributes="Bold"
-           TextColor="White" HorizontalOptions="Center"/>
-    <Label x:Name="AdLabel" Text="" FontSize="12" TextColor="#8899aa" HorizontalOptions="Center"/>
-</VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="0">
+                <Label x:Name="RolLabel" Text="TEKNİKER" FontSize="16" FontAttributes="Bold"
+                       TextColor="White" HorizontalOptions="Center"/>
+                <Label x:Name="AdLabel" Text="" FontSize="12" TextColor="#8899aa" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
         </Grid>
 
         <!-- ===== TEK KAYDIRILABİLİR LİSTE (header + kartlar + footer) ===== -->
@@ -64,6 +63,7 @@
                     <ScrollView Orientation="Horizontal">
                         <HorizontalStackLayout Spacing="8">
                             <Button Text="Tümü" BackgroundColor="#16213e" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreTumu_Clicked"/>
+                            <Button Text="🔴 Arızalı" BackgroundColor="#e94560" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreArizali_Clicked"/>
                             <Button Text="Beklemede" BackgroundColor="#e67e22" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreBeklemede_Clicked"/>
                             <Button Text="Devam Ediyor" BackgroundColor="#3498db" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreDevamEdiyor_Clicked"/>
                             <Button Text="Tamamlandı" BackgroundColor="#27ae60" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreTamamlandi_Clicked"/>
@@ -149,33 +149,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
-            <!--  FOOTER: Aylık Kazanç Hedefi göstergesi (en altta)  -->
-            <CollectionView.Footer>
-                <Frame BackgroundColor="#16213e" BorderColor="#2a2a4a" CornerRadius="12" Padding="15" Margin="0,10,0,20" HasShadow="True">
-                    <VerticalStackLayout Spacing="10">
-                        <Label Text="🎯 Aylık Kazanç Hedefi" FontSize="15" FontAttributes="Bold" TextColor="#e94560" HorizontalOptions="Center"/>
-
-                        <!-- Dairesel gösterge + ortada yüzde -->
-                        <Grid WidthRequest="170" HeightRequest="170" HorizontalOptions="Center">
-                            <GraphicsView x:Name="KazancGauge" HeightRequest="170" WidthRequest="170"/>
-                            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="0">
-                                <Label x:Name="YuzdeLabel" Text="%0" FontSize="30" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
-                                <Label Text="hedef" FontSize="11" TextColor="#8899aa" HorizontalOptions="Center"/>
-                            </VerticalStackLayout>
-                        </Grid>
-
-                        <Label x:Name="KazancDurumLabel" Text="0 ₺ / 0 ₺" FontSize="14" TextColor="#aabbcc" HorizontalOptions="Center"/>
-
-                        <!-- Hedef girişi + Güncelle butonu (yan yana) -->
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                            <Frame Grid.Column="0" BackgroundColor="#1a1a2e" BorderColor="#333355" CornerRadius="8" Padding="3" HasShadow="False">
-                                <Entry x:Name="HedefEntry" Placeholder="Hedef tutar (₺)" Keyboard="Numeric" TextColor="White" PlaceholderColor="#667788"/>
-                            </Frame>
-                            <Button Grid.Column="1" Text="Hedefi Güncelle" BackgroundColor="#3498db" TextColor="White" CornerRadius="8" HeightRequest="40" FontSize="12" Clicked="HedefKaydet_Clicked"/>
-                        </Grid>
-                    </VerticalStackLayout>
-                </Frame>
-            </CollectionView.Footer>
         </CollectionView>
     </Grid>
 </ContentPage>

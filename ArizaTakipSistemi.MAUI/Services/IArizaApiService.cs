@@ -31,5 +31,8 @@ namespace ArizaTakipSistemi.MAUI.Services
         Task<bool> ArizaSilAsync(int id);
         Task<List<ArizaDto>> DurumaGoreFiltrelemeAsync(int durum);
         Task<List<ArizaDto>> TeknisyeneGoreFiltrelemeAsync(int kullaniciId);
+
+        // Audit Log İşlemleri (Said_CrudUI)
+        Task<List<LogDto>> TumLoglariGetirAsync();
     }
 }

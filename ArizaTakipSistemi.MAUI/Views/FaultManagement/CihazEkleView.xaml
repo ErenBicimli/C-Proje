@@ -18,13 +18,37 @@
             <!-- Marka -->
             <Label Text="Marka *" TextColor="#8899aa" FontSize="13"/>
             <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
-                <Entry x:Name="MarkaEntry" Placeholder="Örn: Apple, Samsung" PlaceholderColor="#667788" TextColor="White"/>
+                <Picker x:Name="MarkaPicker" Title="Marka Seçin" TextColor="White" TitleColor="#667788"
+                        SelectedIndexChanged="MarkaPicker_SelectedIndexChanged">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Apple</x:String>
+                            <x:String>Samsung</x:String>
+                            <x:String>Xiaomi</x:String>
+                            <x:String>Huawei</x:String>
+                            <x:String>Oppo</x:String>
+                            <x:String>Vivo</x:String>
+                            <x:String>HP</x:String>
+                            <x:String>Dell</x:String>
+                            <x:String>Lenovo</x:String>
+                            <x:String>Asus</x:String>
+                            <x:String>Acer</x:String>
+                            <x:String>MSI</x:String>
+                            <x:String>Casper</x:String>
+                            <x:String>Monster</x:String>
+                            <x:String>LG</x:String>
+                            <x:String>Sony</x:String>
+                            <x:String>Microsoft</x:String>
+                            <x:String>Diğer</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
             </Frame>
 
-            <!-- Model -->
+            <!-- Model (markaya göre dolar) -->
             <Label Text="Model *" TextColor="#8899aa" FontSize="13"/>
             <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
-                <Entry x:Name="ModelEntry" Placeholder="Örn: iPhone 15, Galaxy S24" PlaceholderColor="#667788" TextColor="White"/>
+                <Picker x:Name="ModelPicker" Title="Önce marka seçin" TextColor="White" TitleColor="#667788"/>
             </Frame>
 
             <!-- Seri Numarası -->
@@ -39,10 +63,9 @@
                 <Picker x:Name="CihazTuruPicker" Title="Cihaz Türü Seçin" TextColor="White" TitleColor="#667788">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
-                            <x:String>Laptop</x:String>
                             <x:String>Telefon</x:String>
                             <x:String>Tablet</x:String>
-                            <x:String>Masaüstü Bilgisayar</x:String>
+                            <x:String>Bilgisayar</x:String>
                             <x:String>Yazıcı</x:String>
                             <x:String>Monitor</x:String>
                             <x:String>Diğer</x:String>

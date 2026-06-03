@@ -7,6 +7,7 @@
 
 using Microsoft.Extensions.Logging;
 using ArizaTakipSistemi.MAUI.Services;
+using ArizaTakipSistemi.MAUI.Views;
 using ArizaTakipSistemi.MAUI.Views.Auth;
 using ArizaTakipSistemi.MAUI.Views.FaultManagement;
 
@@ -43,6 +44,10 @@ public static class MauiProgram
         builder.Services.AddTransient<ArizaEkleView>();
         builder.Services.AddTransient<ArizaGuncelleView>();
         builder.Services.AddTransient<CihazEkleView>();
+        builder.Services.AddTransient<LogListesiView>();
+        builder.Services.AddTransient<HomeView>();
+        builder.Services.AddTransient<CihazTuruSecimView>();
+        builder.Services.AddTransient<CiroHesabiView>();
 
 #if DEBUG
         builder.Logging.AddDebug();

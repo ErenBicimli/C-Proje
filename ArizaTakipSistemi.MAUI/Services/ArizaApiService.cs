@@ -271,5 +271,16 @@ namespace ArizaTakipSistemi.MAUI.Services
             }
             catch { return new(); }
         }
+
+        // ===================== Audit Log =====================
+        // API'deki /api/loglar uç noktasından tüm log kayıtlarını çeker.
+        public async Task<List<LogDto>> TumLoglariGetirAsync()
+        {
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<List<LogDto>>("api/loglar") ?? new();
+            }
+            catch { return new(); }
+        }
     }
 }

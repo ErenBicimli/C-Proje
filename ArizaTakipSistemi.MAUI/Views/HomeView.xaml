@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ============================================================
+     Sorumlu Geliştirici: SAİD (Said_CrudUI)
+     Dosya: Views/HomeView.xaml
+     Açıklama: Giriş sonrası açılan ana sayfa. Beş büyük kart ile
+               uygulamanın bölümlerine yönlendirir.
+     ============================================================ -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ArizaTakipSistemi.MAUI.Views.HomeView"
+             Title="Ana Sayfa"
+             BackgroundColor="#1a1a2e">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Üst başlık -->
+            <VerticalStackLayout Spacing="0" Margin="0,10,0,10">
+                <Label Text="🔧 Arıza Takip Sistemi" FontSize="24" FontAttributes="Bold"
+                       TextColor="#e94560" HorizontalOptions="Center"/>
+                <Label x:Name="RolLabel" Text="TEKNİKER" FontSize="14" FontAttributes="Bold"
+                       TextColor="White" HorizontalOptions="Center" Margin="0,8,0,0"/>
+                <Label x:Name="AdLabel" Text="" FontSize="12" TextColor="#8899aa" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- 5 KART (2x2 + 1 ortalanmış) -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+
+                <!-- 1) Arıza Listesi -->
+                <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="#16213e" BorderColor="#e94560"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="130">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ArizaListesi_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="🔧" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="Arıza Listesi" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- 2) İşlem Geçmişi -->
+                <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#16213e" BorderColor="#3498db"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="130">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="IslemGecmisi_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="📜" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="İşlem Geçmişi" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- 3) Şifre Değiştir -->
+                <Frame Grid.Row="1" Grid.Column="0" BackgroundColor="#16213e" BorderColor="#f39c12"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="130">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SifreDegistir_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="🔑" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="Şifre Değiştir" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- 4) Çıkış Yap -->
+                <Frame Grid.Row="1" Grid.Column="1" BackgroundColor="#16213e" BorderColor="#95a5a6"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="130">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CikisYap_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="🚪" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="Çıkış Yap" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- 5) Ciro Hesabı (iki sütuna yayılmış) -->
+                <Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="#0f3460"
+                       BorderColor="#27ae60" CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="130">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CiroHesabi_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Label Grid.Column="0" Text="💰" FontSize="42" VerticalOptions="Center" Margin="0,0,15,0"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
+                            <Label Text="Ciro Hesabı" FontSize="16" FontAttributes="Bold" TextColor="White"/>
+                            <Label Text="Gelir / Gider grafiği" FontSize="11" TextColor="#aabbcc"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
