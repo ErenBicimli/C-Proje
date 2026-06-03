@@ -67,10 +67,22 @@
                         PlaceholderColor="#667788" TextColor="White" HeightRequest="80" AutoSize="TextChanges"/>
             </Frame>
 
-            <!-- Maliyet -->
-            <Label Text="Tahmini Maliyet (₺)" TextColor="#8899aa" FontSize="13"/>
-            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
-                <Entry x:Name="MaliyetEntry" PlaceholderColor="#667788" TextColor="White" Keyboard="Numeric"/>
+            <!-- Alınacak Tutar (müşteriden alınan) -->
+            <Label Text="Alınacak Tutar (₺)" TextColor="#8899aa" FontSize="13"/>
+            <Label Text="Müşteriden tahsil edilecek tutar — Gelir hesabına eklenir."
+                   TextColor="#667788" FontSize="10"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#27ae60" CornerRadius="10" Padding="5">
+                <Entry x:Name="MaliyetEntry" Placeholder="0.00" PlaceholderColor="#667788"
+                       TextColor="White" Keyboard="Numeric"/>
+            </Frame>
+
+            <!-- Harcanan Masraf (cebimizden çıkan) -->
+            <Label Text="Harcanan Masraf (₺)" TextColor="#8899aa" FontSize="13" Margin="0,5,0,0"/>
+            <Label Text="Onarım için yapılan harcama — Durum 'Tamamlandı' olunca Gider hesabına eklenir."
+                   TextColor="#667788" FontSize="10"/>
+            <Frame BackgroundColor="#16213e" BorderColor="#e94560" CornerRadius="10" Padding="5">
+                <Entry x:Name="HarcananMasrafEntry" Placeholder="0.00" PlaceholderColor="#667788"
+                       TextColor="White" Keyboard="Numeric"/>
             </Frame>
 
             <!-- Tarih Bilgileri -->

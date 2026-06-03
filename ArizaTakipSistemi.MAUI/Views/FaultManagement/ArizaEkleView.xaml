@@ -2,7 +2,9 @@
 <!-- ============================================================
      Sorumlu Geliştirici: SAİD (Said_CrudUI)
      Dosya: Views/FaultManagement/ArizaEkleView.xaml
-     Açıklama: Yeni Arıza Ekleme Ekranı
+     Açıklama: Yeni Arıza Ekleme Ekranı.
+     Güncelleme: Yeni cihaz bilgilerini de aynı formda alma seçeneği eklendi.
+                 Bir anahtarla "Yeni cihaz" / "Var olan cihaz" modu seçiliyor.
      ============================================================ -->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -15,21 +17,133 @@
 
             <Label Text="📝 Yeni Arıza Kaydı" FontSize="22" FontAttributes="Bold" TextColor="#e94560"/>
 
-            <!-- Cihaz Seçimi -->
-            <Label Text="Cihaz" TextColor="#8899aa" FontSize="13"/>
-            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
-                <Picker x:Name="CihazPicker" Title="Cihaz Seçin" TextColor="White" TitleColor="#667788"/>
+            <!-- ===== MOD ANAHTARI =====
+                 Açık (varsayılan): yeni cihaz + arıza birlikte oluşturulur.
+                 Kapalı: zaten kayıtlı bir cihaza arıza eklenir. -->
+            <Frame BackgroundColor="#0f3460" BorderColor="#3498db" CornerRadius="10" Padding="12" HasShadow="False">
+                <HorizontalStackLayout Spacing="10">
+                    <Switch x:Name="YeniCihazSwitch" IsToggled="True" OnColor="#27ae60" Toggled="YeniCihazSwitch_Toggled"/>
+                    <VerticalStackLayout VerticalOptions="Center">
+                        <Label Text="Yeni cihaz ile arıza oluştur" TextColor="White" FontSize="13" FontAttributes="Bold"/>
+                        <Label Text="Kapatırsan listeden mevcut cihaz seçersin" TextColor="#aabbcc" FontSize="10"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
             </Frame>
 
+            <!-- ===== VAR OLAN CİHAZ MODU ===== -->
+            <VerticalStackLayout x:Name="VarOlanCihazPanel" Spacing="10" IsVisible="False">
+                <Label Text="Cihaz" TextColor="#8899aa" FontSize="13"/>
+                <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                    <Picker x:Name="CihazPicker" Title="Cihaz Seçin" TextColor="White" TitleColor="#667788"/>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- ===== YENİ CİHAZ MODU =====
+                 Cihaz bilgileri formu (CihazEkleView ile aynı alanlar). -->
+            <VerticalStackLayout x:Name="YeniCihazPanel" Spacing="10">
+                <Label Text="🆕 Cihaz Bilgileri" FontSize="15" FontAttributes="Bold" TextColor="#3498db"/>
+
+                <!-- Marka -->
+                <Label Text="Marka *" TextColor="#8899aa" FontSize="13"/>
+                <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                    <Picker x:Name="MarkaPicker" Title="Marka Seçin" TextColor="White" TitleColor="#667788"
+                            SelectedIndexChanged="MarkaPicker_SelectedIndexChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Apple</x:String>
+                                <x:String>Samsung</x:String>
+                                <x:String>Xiaomi</x:String>
+                                <x:String>Huawei</x:String>
+                                <x:String>Oppo</x:String>
+                                <x:String>Vivo</x:String>
+                                <x:String>HP</x:String>
+                                <x:String>Dell</x:String>
+                                <x:String>Lenovo</x:String>
+                                <x:String>Asus</x:String>
+                                <x:String>Acer</x:String>
+                                <x:String>MSI</x:String>
+                                <x:String>Casper</x:String>
+                                <x:String>Monster</x:String>
+                                <x:String>LG</x:String>
+                                <x:String>Sony</x:String>
+                                <x:String>Microsoft</x:String>
+                                <x:String>Diğer</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Frame>
+
+                <!-- Model (markaya göre dolar) -->
+                <Label Text="Model *" TextColor="#8899aa" FontSize="13"/>
+                <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                    <Picker x:Name="ModelPicker" Title="Önce marka seçin" TextColor="White" TitleColor="#667788"/>
+                </Frame>
+
+                <!-- Seri No -->
+                <Label Text="Seri Numarası *" TextColor="#8899aa" FontSize="13"/>
+                <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                    <Entry x:Name="SeriNoEntry" Placeholder="Cihaz seri numarası" PlaceholderColor="#667788" TextColor="White"/>
+                </Frame>
+
+                <!-- Cihaz Türü -->
+                <Label Text="Cihaz Türü *" TextColor="#8899aa" FontSize="13"/>
+                <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                    <Picker x:Name="CihazTuruPicker" Title="Cihaz Türü Seçin" TextColor="White" TitleColor="#667788">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Telefon</x:String>
+                                <x:String>Tablet</x:String>
+                                <x:String>Bilgisayar</x:String>
+                                <x:String>Yazıcı</x:String>
+                                <x:String>Monitor</x:String>
+                                <x:String>Diğer</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Frame>
+
+                <!-- Kabul Tarihi + Saati -->
+                <Label Text="Cihaz Kabul Tarihi ve Saati" TextColor="#8899aa" FontSize="13"/>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <VerticalStackLayout Grid.Column="0" Spacing="3">
+                        <Label Text="📅 Tarih" TextColor="#667788" FontSize="11"/>
+                        <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                            <DatePicker x:Name="KabulTarihiPicker" TextColor="White" Format="dd.MM.yyyy"/>
+                        </Frame>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="3">
+                        <Label Text="🕒 Saat" TextColor="#667788" FontSize="11"/>
+                        <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                            <TimePicker x:Name="KabulSaatiPicker" TextColor="White" Format="HH:mm"/>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Müşteri Bilgileri -->
+                <Label Text="Müşteri Adı *" TextColor="#8899aa" FontSize="13"/>
+                <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                    <Entry x:Name="MusteriAdiEntry" Placeholder="Ad Soyad" PlaceholderColor="#667788" TextColor="White"/>
+                </Frame>
+
+                <Label Text="Müşteri Telefon *" TextColor="#8899aa" FontSize="13"/>
+                <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
+                    <Entry x:Name="MusteriTelefonEntry" Placeholder="05XXXXXXXXX" Keyboard="Telephone"
+                           PlaceholderColor="#667788" TextColor="White"/>
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- ===== ARIZA BİLGİLERİ ===== -->
+            <Label Text="⚠️ Arıza Bilgileri" FontSize="15" FontAttributes="Bold" TextColor="#e94560" Margin="0,10,0,0"/>
+
             <!-- Arıza Tanımı -->
-            <Label Text="Arıza Tanımı" TextColor="#8899aa" FontSize="13"/>
+            <Label Text="Arıza Tanımı *" TextColor="#8899aa" FontSize="13"/>
             <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
                 <Editor x:Name="ArizaTanimiEditor" Placeholder="Arızayı detaylı açıklayın (min 10 karakter)"
                         PlaceholderColor="#667788" TextColor="White" HeightRequest="100" AutoSize="TextChanges"/>
             </Frame>
 
             <!-- Kategori -->
-            <Label Text="Kategori" TextColor="#8899aa" FontSize="13"/>
+            <Label Text="Kategori *" TextColor="#8899aa" FontSize="13"/>
             <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
                 <Picker x:Name="KategoriPicker" Title="Kategori Seçin" TextColor="White" TitleColor="#667788">
                     <Picker.ItemsSource>
@@ -66,8 +180,8 @@
                 <Picker x:Name="TeknisyenPicker" Title="Teknisyen Seçin" TextColor="White" TitleColor="#667788"/>
             </Frame>
 
-            <!-- Tahmini Maliyet -->
-            <Label Text="Tahmini Maliyet (₺)" TextColor="#8899aa" FontSize="13"/>
+            <!-- Alınacak Tutar (müşteriden tahsil edilecek) -->
+            <Label Text="Alınacak Tutar (₺)" TextColor="#8899aa" FontSize="13"/>
             <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="5">
                 <Entry x:Name="MaliyetEntry" Placeholder="0.00" PlaceholderColor="#667788"
                        TextColor="White" Keyboard="Numeric"/>

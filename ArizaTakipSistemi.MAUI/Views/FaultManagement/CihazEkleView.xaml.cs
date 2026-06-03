@@ -4,6 +4,7 @@
 // Açıklama: Yeni cihaz ekleme sayfası code-behind.
 // ============================================================
 
+using ArizaTakipSistemi.MAUI.Helpers;
 using ArizaTakipSistemi.MAUI.Models;
 using ArizaTakipSistemi.MAUI.Services;
 
@@ -27,10 +28,19 @@ public partial class CihazEkleView : ContentPage
         KabulSaatiPicker.Time = DateTime.Now.TimeOfDay;
     }
 
+    // Marka değişince Model Picker'ı o markaya ait modellerle doldur.
+    private void MarkaPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var marka = MarkaPicker.SelectedItem?.ToString();
+        ModelPicker.ItemsSource = MarkaModelData.ModelleriGetir(marka);
+        ModelPicker.SelectedIndex = -1;
+        ModelPicker.Title = "Model Seçin";
+    }
+
     private async void KaydetButton_Clicked(object sender, EventArgs e)
     {
-        var marka = MarkaEntry.Text?.Trim();
-        var model = ModelEntry.Text?.Trim();
+        var marka = MarkaPicker.SelectedItem?.ToString();
+        var model = ModelPicker.SelectedItem?.ToString();
         var seriNo = SeriNoEntry.Text?.Trim();
         var musteriAdi = MusteriAdiEntry.Text?.Trim();
         var musteriTelefon = MusteriTelefonEntry.Text?.Trim();

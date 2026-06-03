@@ -75,5 +75,6 @@ app.UseCors("AllowAll");
 app.MapKullaniciEndpoints();
 app.MapCihazEndpoints();
 app.MapArizaEndpoints();
+app.MapLogEndpoints();
 
 app.Run();

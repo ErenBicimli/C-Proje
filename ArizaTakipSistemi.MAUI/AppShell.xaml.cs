@@ -1,7 +1,8 @@
 // ============================================================
-// Sorumlu Geliştirici: EREN (Eren_AuthUI)
+// Sorumlu Geliştirici: EREN (Eren_AuthUI) — Said tarafından güncellendi
 // Dosya: AppShell.xaml.cs
-// Açıklama: AppShell code-behind. Route kayıtları ve çıkış işlemi.
+// Açıklama: Tüm sayfaları push navigasyon için route olarak kaydeder.
+//           Push edilen sayfalarda otomatik geri butonu gözükür.
 // ============================================================
 
 using ArizaTakipSistemi.MAUI.Views.Auth;
@@ -15,22 +16,16 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
 
-        // Sayfa route kayıtları (Shell navigasyonu için)
+        // Tüm sayfalar push navigasyon için route'a kayıtlı.
+        // HomeView varsayılan (Shell.xaml içinde), diğerleri buradan açılır.
+        Routing.RegisterRoute("ArizaListesi", typeof(ArizaListesiView));
+        Routing.RegisterRoute("CihazTuruSecim", typeof(CihazTuruSecimView));
+        Routing.RegisterRoute("LogListesi", typeof(LogListesiView));
+        Routing.RegisterRoute("CiroHesabi", typeof(CiroHesabiView));
+        Routing.RegisterRoute("SifreDegistir", typeof(PasswordChangeView));
+        Routing.RegisterRoute("ArizaEkle", typeof(ArizaEkleView));
         Routing.RegisterRoute(nameof(ArizaEkleView), typeof(ArizaEkleView));
         Routing.RegisterRoute(nameof(ArizaGuncelleView), typeof(ArizaGuncelleView));
         Routing.RegisterRoute(nameof(PasswordChangeView), typeof(PasswordChangeView));
-    }
-
-    private void CikisYap_Clicked(object sender, EventArgs e)
-    {
-        // Oturum bilgilerini temizle
-        Preferences.Remove("KullaniciId");
-        Preferences.Remove("KullaniciAd");
-        Preferences.Remove("KullaniciRol");
-        Preferences.Set("GirisYapildi", false);
-
-        // Login sayfasına dön
-        Application.Current!.MainPage = new NavigationPage(
-            App.Current!.Handler!.MauiContext!.Services.GetRequiredService<LoginView>());
     }
 }

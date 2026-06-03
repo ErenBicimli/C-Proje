@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ============================================================
+     Sorumlu Geliştirici: SAİD (Said_CrudUI)
+     Dosya: Views/FaultManagement/CihazTuruSecimView.xaml
+     Açıklama: Arıza Listesi'ne girmeden önce kullanıcı hangi cihaz
+               türünü görmek istediğini seçer. Kartlardan birine
+               tıklayınca ArizaListesi sayfasına CihazTuru parametresi
+               geçilir, ona göre filtrelenmiş liste açılır.
+     ============================================================ -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ArizaTakipSistemi.MAUI.Views.FaultManagement.CihazTuruSecimView"
+             Title="Cihaz Türü"
+             BackgroundColor="#1a1a2e">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="📂 Cihaz Türünü Seçin" FontSize="22" FontAttributes="Bold"
+                   TextColor="#e94560" HorizontalOptions="Center" Margin="0,10,0,5"/>
+            <Label Text="Hangi cihaz türündeki arızalara bakmak istersiniz?"
+                   FontSize="12" TextColor="#8899aa" HorizontalOptions="Center" Margin="0,0,0,10"/>
+
+            <!-- 6 kart + altta tümü -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto"
+                  ColumnSpacing="12" RowSpacing="12">
+
+                <!-- Telefon -->
+                <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="#16213e" BorderColor="#e94560"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="120">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Telefon_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="📱" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="Telefon" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Bilgisayar -->
+                <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#16213e" BorderColor="#3498db"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="120">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Bilgisayar_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="💻" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="Bilgisayar" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Tablet -->
+                <Frame Grid.Row="1" Grid.Column="0" BackgroundColor="#16213e" BorderColor="#f39c12"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="120">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Tablet_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="📱" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="Tablet" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Yazıcı -->
+                <Frame Grid.Row="1" Grid.Column="1" BackgroundColor="#16213e" BorderColor="#9b59b6"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="120">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Yazici_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="🖨️" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="Yazıcı" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Monitor -->
+                <Frame Grid.Row="2" Grid.Column="0" BackgroundColor="#16213e" BorderColor="#1abc9c"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="120">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Monitor_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="🖥️" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="Monitor" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Diğer -->
+                <Frame Grid.Row="2" Grid.Column="1" BackgroundColor="#16213e" BorderColor="#95a5a6"
+                       CornerRadius="14" Padding="18" HasShadow="True" HeightRequest="120">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Diger_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="📦" FontSize="36" HorizontalOptions="Center"/>
+                        <Label Text="Diğer" FontSize="14" FontAttributes="Bold"
+                               TextColor="White" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Tümü (iki sütun) -->
+                <Frame Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="#0f3460"
+                       BorderColor="#27ae60" CornerRadius="14" Padding="14" HasShadow="True" HeightRequest="90">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Tumu_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Label Grid.Column="0" Text="📋" FontSize="34" VerticalOptions="Center" Margin="0,0,15,0"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                            <Label Text="Tüm Arızalar" FontSize="16" FontAttributes="Bold" TextColor="White"/>
+                            <Label Text="Türüne bakmadan hepsini göster" FontSize="11" TextColor="#aabbcc"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
