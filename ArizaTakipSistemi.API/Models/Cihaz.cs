@@ -40,7 +40,6 @@ namespace ArizaTakipSistemi.API.Models
         public string MusteriAdi { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Müşteri telefon numarası zorunludur.")]
-        [Phone(ErrorMessage = "Geçerli bir telefon numarası giriniz.")]
         [StringLength(20)]
         public string MusteriTelefon { get; set; } = string.Empty;
 

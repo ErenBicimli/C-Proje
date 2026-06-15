@@ -33,20 +33,49 @@ namespace ArizaTakipSistemi.API.Endpoints
 
             group.MapPost("/", async (Cihaz cihaz, ICihazService service) =>
             {
-                var yeniCihaz = await service.CihazEkleAsync(cihaz);
-                return Results.Created($"/api/cihazlar/{yeniCihaz.CihazId}", yeniCihaz);
+                try
+                {
+                    var yeniCihaz = await service.CihazEkleAsync(cihaz);
+                    return Results.Created($"/api/cihazlar/{yeniCihaz.CihazId}", yeniCihaz);
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
             });
 
             group.MapPut("/{id}", async (int id, Cihaz cihaz, ICihazService service) =>
             {
-                var guncelCihaz = await service.CihazGuncelleAsync(id, cihaz);
-                return guncelCihaz != null ? Results.Ok(guncelCihaz) : Results.NotFound();
+                try
+                {
+                    var guncelCihaz = await service.CihazGuncelleAsync(id, cihaz);
+                    return guncelCihaz != null ? Results.Ok(guncelCihaz) : Results.NotFound();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return Results.BadRequest(new { mesaj = ex.Message });
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
             });
 
             group.MapDelete("/{id}", async (int id, ICihazService service) =>
             {
-                var sonuc = await service.CihazSilAsync(id);
-                return sonuc ? Results.NoContent() : Results.NotFound();
+                try
+                {
+                    var sonuc = await service.CihazSilAsync(id);
+                    return sonuc ? Results.NoContent() : Results.NotFound();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return Results.BadRequest(new { mesaj = ex.Message });
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
             });
         }
     }

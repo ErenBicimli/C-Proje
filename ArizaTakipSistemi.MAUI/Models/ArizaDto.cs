@@ -17,6 +17,7 @@ namespace ArizaTakipSistemi.MAUI.Models
         public int OncelikDurumu { get; set; }
         public string? YapilanIslem { get; set; }
         public decimal? TahminiMaliyet { get; set; }
+        public decimal? HarcananMasraf { get; set; }
         public DateTime OlusturulmaTarihi { get; set; }
         public DateTime? GuncellemeTarihi { get; set; }
         public DateTime? TamamlanmaTarihi { get; set; }

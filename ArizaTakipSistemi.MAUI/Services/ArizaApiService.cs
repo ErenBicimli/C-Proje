@@ -46,23 +46,26 @@ namespace ArizaTakipSistemi.MAUI.Services
 
         public async Task<KullaniciDto?> KullaniciKayitAsync(KullaniciDto kullanici, string sifre)
         {
-            try
+            var kayitDto = new
             {
-                var kayitDto = new
-                {
-                    ad = kullanici.Ad,
-                    soyad = kullanici.Soyad,
-                    email = kullanici.Email,
-                    sifre = sifre,
-                    telefon = kullanici.Telefon,
-                    rol = kullanici.Rol
-                };
-                var response = await _httpClient.PostAsJsonAsync("api/kullanicilar", kayitDto);
-                if (response.IsSuccessStatusCode)
-                    return await response.Content.ReadFromJsonAsync<KullaniciDto>();
-                return null;
+                ad = kullanici.Ad,
+                soyad = kullanici.Soyad,
+                email = kullanici.Email,
+                sifre = sifre,
+                telefon = kullanici.Telefon,
+                rol = kullanici.Rol
+            };
+            var response = await _httpClient.PostAsJsonAsync("api/kullanicilar", kayitDto);
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadFromJsonAsync<KullaniciDto>();
+            
+            var errorMsg = await response.Content.ReadAsStringAsync();
+            if (!string.IsNullOrWhiteSpace(errorMsg))
+            {
+                throw new Exception(errorMsg.Trim('"'));
             }
-            catch { return null; }
+            
+            return null;
         }
 
         public async Task<List<KullaniciDto>> TumKullanicilariGetirAsync()
@@ -118,18 +121,21 @@ namespace ArizaTakipSistemi.MAUI.Services
                     musteriAdi = cihaz.MusteriAdi,
                     musteriTelefon = cihaz.MusteriTelefon,
                     musteriEmail = cihaz.MusteriEmail,
-                    musteriAdres = cihaz.MusteriAdres,
-                    // Kabul tarihi de gönderilir. Backend'de alan eklenince otomatik kaydedilir,
-                    // alan yoksa API bu fazladan veriyi sessizce yok sayar (hata vermez).
-                    kabulTarihi = cihaz.KabulTarihi
+                    musteriAdres = cihaz.MusteriAdres
                 };
 
+                KullaniciIdHeaderAyarla();
                 var response = await _httpClient.PostAsJsonAsync("api/cihazlar", payload);
                 if (response.IsSuccessStatusCode)
                     return await response.Content.ReadFromJsonAsync<CihazDto>();
-                return null;
+
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Cihaz eklenemedi: {errorMsg}");
             }
-            catch { return null; }
+            catch (HttpRequestException)
+            {
+                throw new Exception("API sunucusuna bağlanılamadı! API'nin çalıştığından emin olun.");
+            }
         }
 
         public async Task<CihazDto?> CihazGuncelleAsync(int id, CihazDto cihaz)
@@ -199,7 +205,8 @@ namespace ArizaTakipSistemi.MAUI.Services
                     kategori = ariza.Kategori,
                     durum = ariza.Durum,
                     oncelikDurumu = ariza.OncelikDurumu,
-                    tahminiMaliyet = ariza.TahminiMaliyet
+                    tahminiMaliyet = ariza.TahminiMaliyet,
+                    harcananMasraf = ariza.HarcananMasraf
                 };
 
                 var response = await _httpClient.PostAsJsonAsync("api/arizalar", payload);
@@ -232,7 +239,8 @@ namespace ArizaTakipSistemi.MAUI.Services
                     durum = ariza.Durum,
                     oncelikDurumu = ariza.OncelikDurumu,
                     yapilanIslem = ariza.YapilanIslem,
-                    tahminiMaliyet = ariza.TahminiMaliyet
+                    tahminiMaliyet = ariza.TahminiMaliyet,
+                    harcananMasraf = ariza.HarcananMasraf
                 };
 
                 var response = await _httpClient.PutAsJsonAsync($"api/arizalar/{id}", payload);

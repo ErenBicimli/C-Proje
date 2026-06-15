@@ -36,18 +36,8 @@
                 <VerticalStackLayout Spacing="10" Padding="0,0,0,5">
 
                     <!-- Özet kartları -->
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                        <Frame Grid.Column="0" BackgroundColor="#2a1a2e" BorderColor="#e94560" CornerRadius="12" Padding="12" HasShadow="True">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="ArizaliKart_Tapped"/>
-                            </Frame.GestureRecognizers>
-                            <VerticalStackLayout Spacing="2">
-                                <Label x:Name="ArizaliSayiLabel" Text="0" FontSize="28" FontAttributes="Bold" TextColor="#e94560"/>
-                                <Label Text="🔧 Arızalı Cihazlar" FontSize="12" TextColor="#aabbcc"/>
-                                <Label Text="(tamamlanmamış)" FontSize="10" TextColor="#667788"/>
-                            </VerticalStackLayout>
-                        </Frame>
-                        <Frame Grid.Column="1" BackgroundColor="#1a2e22" BorderColor="#27ae60" CornerRadius="12" Padding="12" HasShadow="True">
+                    <Grid ColumnDefinitions="*">
+                        <Frame Grid.Column="0" BackgroundColor="#1a2e22" BorderColor="#27ae60" CornerRadius="12" Padding="12" HasShadow="True">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TeslimKart_Tapped"/>
                             </Frame.GestureRecognizers>
@@ -63,10 +53,10 @@
                     <ScrollView Orientation="Horizontal">
                         <HorizontalStackLayout Spacing="8">
                             <Button Text="Tümü" BackgroundColor="#16213e" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreTumu_Clicked"/>
-                            <Button Text="🔴 Arızalı" BackgroundColor="#e94560" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreArizali_Clicked"/>
                             <Button Text="Beklemede" BackgroundColor="#e67e22" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreBeklemede_Clicked"/>
                             <Button Text="Devam Ediyor" BackgroundColor="#3498db" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreDevamEdiyor_Clicked"/>
                             <Button Text="Tamamlandı" BackgroundColor="#27ae60" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreTamamlandi_Clicked"/>
+                            <Button Text="İptal Edildi" BackgroundColor="#c0392b" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="FiltreIptal_Clicked"/>
                             <Button Text="+ Yeni Arıza" BackgroundColor="#e94560" TextColor="White" CornerRadius="15" HeightRequest="35" FontSize="12" Clicked="YeniAriza_Clicked"/>
                         </HorizontalStackLayout>
                     </ScrollView>
@@ -115,13 +105,7 @@
                 </VerticalStackLayout>
             </CollectionView.Header>
 
-            <!--  BOŞ DURUM  -->
-            <CollectionView.EmptyView>
-                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10" Padding="20">
-                    <Label Text="📋" FontSize="50" HorizontalOptions="Center"/>
-                    <Label Text="Kayıt bulunamadı" FontSize="16" TextColor="#8899aa" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-            </CollectionView.EmptyView>
+
 
             <!--  ARIZA KARTLARI (durum rengine boyalı)  -->
             <CollectionView.ItemTemplate>
@@ -150,5 +134,11 @@
             </CollectionView.ItemTemplate>
 
         </CollectionView>
+
+        <!-- YENİ: Manuel Boş Durum Göstergesi (Donma/Kilitlenme Bug'ını önlemek için) -->
+        <VerticalStackLayout x:Name="BosDurumLayout" Grid.Row="1" IsVisible="False" VerticalOptions="Center" HorizontalOptions="Center" Spacing="10" Padding="20">
+            <Label Text="📋" FontSize="50" HorizontalOptions="Center"/>
+            <Label Text="Kayıt bulunamadı" FontSize="16" TextColor="#8899aa" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
     </Grid>
 </ContentPage>

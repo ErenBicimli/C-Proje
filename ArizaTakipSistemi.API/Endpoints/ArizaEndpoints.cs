@@ -33,31 +33,45 @@ namespace ArizaTakipSistemi.API.Endpoints
             // POST: yeni arıza ekleme + AUDIT LOG
             group.MapPost("/", async (Ariza ariza, IArizaService service, ILogService logService, HttpRequest req) =>
             {
-                var yeniAriza = await service.ArizaEkleAsync(ariza);
-                int kid = KullaniciIdAl(req, yeniAriza.KullaniciId ?? 0);
-                await logService.LogEkleAsync(
-                    IslemTuru.Ekleme,
-                    "Arizalar",
-                    yeniAriza.ArizaId,
-                    $"Yeni arıza eklendi: {yeniAriza.ArizaTanimi}",
-                    kid);
-                return Results.Created($"/api/arizalar/{yeniAriza.ArizaId}", yeniAriza);
+                try
+                {
+                    var yeniAriza = await service.ArizaEkleAsync(ariza);
+                    int kid = KullaniciIdAl(req, yeniAriza.KullaniciId ?? 0);
+                    await logService.LogEkleAsync(
+                        IslemTuru.Ekleme,
+                        "Arizalar",
+                        yeniAriza.ArizaId,
+                        $"Yeni arıza eklendi: {yeniAriza.ArizaTanimi}",
+                        kid);
+                    return Results.Created($"/api/arizalar/{yeniAriza.ArizaId}", yeniAriza);
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(new { mesaj = "Arıza eklenirken bir hata oluştu: " + ex.Message });
+                }
             });
 
             // PUT: arıza güncelleme + AUDIT LOG
             group.MapPut("/{id}", async (int id, Ariza ariza, IArizaService service, ILogService logService, HttpRequest req) =>
             {
-                var guncelAriza = await service.ArizaGuncelleAsync(id, ariza);
-                if (guncelAriza == null) return Results.NotFound();
+                try
+                {
+                    var guncelAriza = await service.ArizaGuncelleAsync(id, ariza);
+                    if (guncelAriza == null) return Results.NotFound();
 
-                int kid = KullaniciIdAl(req, guncelAriza.KullaniciId ?? 0);
-                await logService.LogEkleAsync(
-                    IslemTuru.Guncelleme,
-                    "Arizalar",
-                    guncelAriza.ArizaId,
-                    $"Arıza güncellendi: {guncelAriza.ArizaTanimi} (Durum: {guncelAriza.Durum})",
-                    kid);
-                return Results.Ok(guncelAriza);
+                    int kid = KullaniciIdAl(req, guncelAriza.KullaniciId ?? 0);
+                    await logService.LogEkleAsync(
+                        IslemTuru.Guncelleme,
+                        "Arizalar",
+                        guncelAriza.ArizaId,
+                        $"Arıza güncellendi: {guncelAriza.ArizaTanimi} (Durum: {guncelAriza.Durum})",
+                        kid);
+                    return Results.Ok(guncelAriza);
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(new { mesaj = "Arıza güncellenirken bir hata oluştu: " + ex.Message });
+                }
             });
 
             // DELETE: arıza silme + AUDIT LOG

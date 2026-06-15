@@ -39,7 +39,7 @@ namespace ArizaTakipSistemi.API.Data
 
                 // Varsayılan değerler
                 entity.Property(k => k.OlusturulmaTarihi)
-                      .HasDefaultValueSql("datetime('now','localtime')");
+                      .HasDefaultValueSql("GETDATE()");
 
                 entity.Property(k => k.AktifMi)
                       .HasDefaultValue(true);
@@ -55,14 +55,14 @@ namespace ArizaTakipSistemi.API.Data
                 entity.HasIndex(c => c.SeriNumarasi).IsUnique();
 
                 entity.Property(c => c.OlusturulmaTarihi)
-                      .HasDefaultValueSql("datetime('now','localtime')");
+                      .HasDefaultValueSql("GETDATE()");
             });
 
             // ---------- Ariza Konfigürasyonu ----------
             modelBuilder.Entity<Ariza>(entity =>
             {
                 entity.Property(a => a.OlusturulmaTarihi)
-                      .HasDefaultValueSql("datetime('now','localtime')");
+                      .HasDefaultValueSql("GETDATE()");
 
                 entity.Property(a => a.Durum)
                       .HasConversion<int>();
@@ -88,7 +88,7 @@ namespace ArizaTakipSistemi.API.Data
             modelBuilder.Entity<Log>(entity =>
             {
                 entity.Property(l => l.IslemTarihi)
-                      .HasDefaultValueSql("datetime('now','localtime')");
+                      .HasDefaultValueSql("GETDATE()");
 
                 entity.Property(l => l.IslemTuru)
                       .HasConversion<int>();

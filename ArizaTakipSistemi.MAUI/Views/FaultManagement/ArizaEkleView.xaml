@@ -187,6 +187,14 @@
                        TextColor="White" Keyboard="Numeric"/>
             </Frame>
 
+            <!-- Garanti Durumu (CheckBox kullanımı) -->
+            <Frame BackgroundColor="#16213e" BorderColor="#333355" CornerRadius="10" Padding="10" HasShadow="False">
+                <HorizontalStackLayout Spacing="10">
+                    <CheckBox x:Name="GarantiCheckBox" Color="#27ae60"/>
+                    <Label Text="Garanti kapsamında" TextColor="White" FontSize="14" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Frame>
+
             <!-- Kaydet Butonu -->
             <Button x:Name="KaydetButton" Text="ARIZA KAYDINI OLUŞTUR"
                     FontSize="16" FontAttributes="Bold"

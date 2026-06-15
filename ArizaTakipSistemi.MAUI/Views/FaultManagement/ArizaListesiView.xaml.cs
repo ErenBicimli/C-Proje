@@ -8,6 +8,7 @@
 //   - Yeni "🔴 Arızalı" butonu Durum 0 (Beklemede) veya 1 (Devam Ediyor) olanları gösterir.
 // ============================================================
 
+using System.Collections.ObjectModel;
 using ArizaTakipSistemi.MAUI.Models;
 using ArizaTakipSistemi.MAUI.Services;
 
@@ -19,6 +20,7 @@ public partial class ArizaListesiView : ContentPage
     private readonly IArizaApiService _apiService;
     private List<ArizaDto> _tumArizalar = new();
     private List<ArizaDto> _kaynakListe = new();
+    private ObservableCollection<ArizaDto> _gosterilenArizalar = new();
 
     // CihazTuruSecimView'dan gelen parametre. Boş ise filtre uygulanmaz.
     public string CihazTuru { get; set; } = string.Empty;
@@ -27,6 +29,7 @@ public partial class ArizaListesiView : ContentPage
     {
         InitializeComponent();
         _apiService = apiService;
+        ArizaCollectionView.ItemsSource = _gosterilenArizalar;
     }
 
     protected override async void OnAppearing()
@@ -63,14 +66,7 @@ public partial class ArizaListesiView : ContentPage
 
     private void SayilariGuncelle()
     {
-        ArizaliSayiLabel.Text = _tumArizalar.Count(a => a.Durum == 0 || a.Durum == 1).ToString();
         TeslimSayiLabel.Text = _tumArizalar.Count(a => a.Durum == 2).ToString();
-    }
-
-    private void ArizaliKart_Tapped(object sender, TappedEventArgs e)
-    {
-        _kaynakListe = _tumArizalar.Where(a => a.Durum == 0 || a.Durum == 1).ToList();
-        FiltreleriUygula();
     }
 
     private void TeslimKart_Tapped(object sender, TappedEventArgs e)
@@ -114,7 +110,14 @@ public partial class ArizaListesiView : ContentPage
             .ThenByDescending(a => a.OlusturulmaTarihi)
             .ToList();
 
-        ArizaCollectionView.ItemsSource = siralanmis;
+        _gosterilenArizalar.Clear();
+        foreach (var item in siralanmis)
+        {
+            _gosterilenArizalar.Add(item);
+        }
+
+        // MAUI CollectionView.EmptyView kilitlenme (freeze) bug'ını aşmak için manuel kontrol
+        BosDurumLayout.IsVisible = !_gosterilenArizalar.Any();
     }
 
     private void AramaCubugu_TextChanged(object sender, TextChangedEventArgs e) => FiltreleriUygula();
@@ -130,12 +133,15 @@ public partial class ArizaListesiView : ContentPage
         await ArizalariYukle();
     }
 
-    private async void FiltreTumu_Clicked(object sender, EventArgs e) => await ArizalariYukle();
-
-    // YENİ: Arızalı (Durum 0 veya 1) — yani henüz tamamlanmamış olanlar
-    private void FiltreArizali_Clicked(object sender, EventArgs e)
+    private void FiltreTumu_Clicked(object sender, EventArgs e)
     {
-        _kaynakListe = _tumArizalar.Where(a => a.Durum == 0 || a.Durum == 1).ToList();
+        _kaynakListe = _tumArizalar;
+        FiltreleriUygula();
+    }
+
+    private void FiltreIptal_Clicked(object sender, EventArgs e)
+    {
+        _kaynakListe = _tumArizalar.Where(a => a.Durum == 3).ToList();
         FiltreleriUygula();
     }
 

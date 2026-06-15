@@ -18,10 +18,10 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-// DbContext (SQLite)
+// DbContext (MS SQL Server)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlServer(connectionString));
 
 // Dependency Injection (Servisler)
 builder.Services.AddScoped<IKullaniciService, KullaniciService>();

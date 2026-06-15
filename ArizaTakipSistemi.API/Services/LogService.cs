@@ -56,20 +56,31 @@ namespace ArizaTakipSistemi.API.Services
 
         public async Task LogEkleAsync(IslemTuru islemTuru, string tabloAdi, int kayitId, string yapilanIslem, int kullaniciId, string? eskiDegerler = null, string? yeniDegerler = null)
         {
-            var log = new Log
-            {
-                IslemTuru = islemTuru,
-                TabloAdi = tabloAdi,
-                KayitId = kayitId,
-                YapilanIslem = yapilanIslem,
-                KullaniciId = kullaniciId,
-                IslemTarihi = DateTime.Now,
-                EskiDegerler = eskiDegerler,
-                YeniDegerler = yeniDegerler
-            };
+            // KullaniciId 0 veya geçersizse, FK hatası oluşmaması için log yazmayı atla
+            if (kullaniciId <= 0)
+                return;
 
-            _context.Loglar.Add(log);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var log = new Log
+                {
+                    IslemTuru = islemTuru,
+                    TabloAdi = tabloAdi,
+                    KayitId = kayitId,
+                    YapilanIslem = yapilanIslem,
+                    KullaniciId = kullaniciId,
+                    IslemTarihi = DateTime.Now,
+                    EskiDegerler = eskiDegerler,
+                    YeniDegerler = yeniDegerler
+                };
+
+                _context.Loglar.Add(log);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                // Log yazma hatası ana işlemi engellemesin
+            }
         }
     }
 }

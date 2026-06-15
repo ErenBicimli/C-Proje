@@ -54,6 +54,7 @@ public partial class ArizaGuncelleView : ContentPage
         OncelikPicker.SelectedIndex = _ariza.OncelikDurumu;
         YapilanIslemEditor.Text = _ariza.YapilanIslem;
         MaliyetEntry.Text = _ariza.TahminiMaliyet?.ToString("F2");
+        HarcananMasrafEntry.Text = _ariza.HarcananMasraf?.ToString("F2");
 
         // Tarihler
         OlusturulmaTarihiLabel.Text = $"📅 Oluşturulma: {_ariza.OlusturulmaTarihi:dd.MM.yyyy HH:mm}";
@@ -69,27 +70,21 @@ public partial class ArizaGuncelleView : ContentPage
 
         GuncelleButton.IsEnabled = false;
 
-        // MASRAF: form üzerindeki "Harcanan Masraf" alanından okunur.
-        // Eğer durum YENİ "Tamamlandı" (2) olduysa (önceden değildiyse),
-        // bu tutar Gider hesabına (MasrafYonetici) eklenir.
-        int yeniDurum = DurumPicker.SelectedIndex;
-        if (yeniDurum == 2 && _ariza.Durum != 2)
-        {
-            if (double.TryParse(HarcananMasrafEntry.Text, out double masraf) && masraf > 0)
-            {
-                MasrafYonetici.Ekle(masraf);
-            }
-        }
+        decimal? harcananMasraf = null;
+        if (!string.IsNullOrEmpty(HarcananMasrafEntry.Text) && decimal.TryParse(HarcananMasrafEntry.Text, out var parsedMasraf))
+            harcananMasraf = parsedMasraf;
 
         decimal? maliyet = null;
         if (!string.IsNullOrEmpty(MaliyetEntry.Text) && decimal.TryParse(MaliyetEntry.Text, out var parsedMaliyet))
             maliyet = parsedMaliyet;
 
         _ariza.ArizaTanimi = ArizaTanimiEditor.Text ?? "";
+        int yeniDurum = DurumPicker.SelectedIndex;
         _ariza.Durum = yeniDurum;
         _ariza.OncelikDurumu = OncelikPicker.SelectedIndex;
         _ariza.YapilanIslem = YapilanIslemEditor.Text;
         _ariza.TahminiMaliyet = maliyet;
+        _ariza.HarcananMasraf = harcananMasraf;
 
         var sonuc = await _apiService.ArizaGuncelleAsync(_ariza.ArizaId, _ariza);
 

@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // Sorumlu Geliştirici: SAİD (Said_CrudUI)
 // Dosya: Views/FaultManagement/CiroHesabiView.xaml.cs
 // Açıklama: Gelir (tamamlanan arızaların maliyet toplamı) ve
@@ -36,14 +36,17 @@ public partial class CiroHesabiView : ContentPage
 
     private async Task CiroHesapla()
     {
-        // GELİR: tamamlanan arızaların Tahmini Maliyet toplamı (LINQ ile).
+        // GELİR: tamamlanan arızaların Tahmini Maliyet (Alınacak Tutar) toplamı
         var arizalar = await _apiService.TumArizalariGetirAsync();
         double gelir = arizalar
             .Where(a => a.Durum == 2)
             .Sum(a => (double)(a.TahminiMaliyet ?? 0));
 
-        // GİDER: tamamlanırken biriken masraflar (Preferences'tan).
-        double gider = MasrafYonetici.ToplamGider;
+        // GİDER: tamamlanan arızaların Harcanan Masraf toplamı
+        double gider = arizalar
+            .Where(a => a.Durum == 2)
+            .Sum(a => (double)(a.HarcananMasraf ?? 0));
+            
         double netCiro = gelir - gider;
 
         // Yüzde hesapları
@@ -82,16 +85,5 @@ public partial class CiroHesabiView : ContentPage
         {
             await DisplayAlert("Uyarı", "Lütfen geçerli bir hedef tutar girin.", "Tamam");
         }
-    }
-
-    private async void GiderSifirla_Clicked(object sender, EventArgs e)
-    {
-        bool onay = await DisplayAlert("Sıfırla",
-            "Toplam gider sayacını sıfırlamak istediğinize emin misiniz?",
-            "Evet", "İptal");
-        if (!onay) return;
-
-        MasrafYonetici.Sifirla();
-        await CiroHesapla();
     }
 }

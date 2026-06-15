@@ -29,14 +29,36 @@ namespace ArizaTakipSistemi.API.Endpoints
 
             group.MapPost("/", async (Kullanici kullanici, IKullaniciService service) =>
             {
-                var yeniKullanici = await service.KullaniciEkleAsync(kullanici);
-                return Results.Created($"/api/kullanicilar/{yeniKullanici.KullaniciId}", yeniKullanici);
+                try
+                {
+                    var yeniKullanici = await service.KullaniciEkleAsync(kullanici);
+                    return Results.Created($"/api/kullanicilar/{yeniKullanici.KullaniciId}", yeniKullanici);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
             });
 
             group.MapPut("/{id}", async (int id, Kullanici kullanici, IKullaniciService service) =>
             {
-                var guncelKullanici = await service.KullaniciGuncelleAsync(id, kullanici);
-                return guncelKullanici != null ? Results.Ok(guncelKullanici) : Results.NotFound();
+                try
+                {
+                    var guncelKullanici = await service.KullaniciGuncelleAsync(id, kullanici);
+                    return guncelKullanici != null ? Results.Ok(guncelKullanici) : Results.NotFound();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return Results.BadRequest(new { mesaj = ex.Message });
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
             });
 
             group.MapDelete("/{id}", async (int id, IKullaniciService service) =>

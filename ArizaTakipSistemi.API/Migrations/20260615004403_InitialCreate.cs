@@ -17,17 +17,17 @@ namespace ArizaTakipSistemi.API.Migrations
                 name: "Cihazlar",
                 columns: table => new
                 {
-                    CihazId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Marka = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Model = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    SeriNumarasi = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    CihazTuru = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    MusteriAdi = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    MusteriTelefon = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    MusteriAdres = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
-                    MusteriEmail = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    OlusturulmaTarihi = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "datetime('now','localtime')")
+                    CihazId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Marka = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Model = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    SeriNumarasi = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CihazTuru = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MusteriAdi = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    MusteriTelefon = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    MusteriAdres = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    MusteriEmail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    OlusturulmaTarihi = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
                 constraints: table =>
                 {
@@ -38,17 +38,17 @@ namespace ArizaTakipSistemi.API.Migrations
                 name: "Kullanicilar",
                 columns: table => new
                 {
-                    KullaniciId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Ad = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Soyad = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Sifre = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
-                    Rol = table.Column<int>(type: "INTEGER", nullable: false),
-                    Telefon = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
-                    AktifMi = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: true),
-                    OlusturulmaTarihi = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "datetime('now','localtime')"),
-                    SonGirisTarihi = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    KullaniciId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Ad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Soyad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Sifre = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Rol = table.Column<int>(type: "int", nullable: false),
+                    Telefon = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    AktifMi = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    OlusturulmaTarihi = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    SonGirisTarihi = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,19 +59,19 @@ namespace ArizaTakipSistemi.API.Migrations
                 name: "Arizalar",
                 columns: table => new
                 {
-                    ArizaId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CihazId = table.Column<int>(type: "INTEGER", nullable: false),
-                    KullaniciId = table.Column<int>(type: "INTEGER", nullable: true),
-                    ArizaTanimi = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
-                    Kategori = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Durum = table.Column<int>(type: "INTEGER", nullable: false),
-                    OncelikDurumu = table.Column<int>(type: "INTEGER", nullable: false),
-                    YapilanIslem = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: true),
+                    ArizaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CihazId = table.Column<int>(type: "int", nullable: false),
+                    KullaniciId = table.Column<int>(type: "int", nullable: true),
+                    ArizaTanimi = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Kategori = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Durum = table.Column<int>(type: "int", nullable: false),
+                    OncelikDurumu = table.Column<int>(type: "int", nullable: false),
+                    YapilanIslem = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     TahminiMaliyet = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    OlusturulmaTarihi = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "datetime('now','localtime')"),
-                    GuncellemeTarihi = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    TamamlanmaTarihi = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    OlusturulmaTarihi = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    GuncellemeTarihi = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TamamlanmaTarihi = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,16 +94,16 @@ namespace ArizaTakipSistemi.API.Migrations
                 name: "Loglar",
                 columns: table => new
                 {
-                    LogId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    IslemTuru = table.Column<int>(type: "INTEGER", nullable: false),
-                    TabloAdi = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    KayitId = table.Column<int>(type: "INTEGER", nullable: false),
-                    YapilanIslem = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
-                    EskiDegerler = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: true),
-                    YeniDegerler = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: true),
-                    KullaniciId = table.Column<int>(type: "INTEGER", nullable: false),
-                    IslemTarihi = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "datetime('now','localtime')")
+                    LogId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IslemTuru = table.Column<int>(type: "int", nullable: false),
+                    TabloAdi = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    KayitId = table.Column<int>(type: "int", nullable: false),
+                    YapilanIslem = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    EskiDegerler = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    YeniDegerler = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    KullaniciId = table.Column<int>(type: "int", nullable: false),
+                    IslemTarihi = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
                 constraints: table =>
                 {

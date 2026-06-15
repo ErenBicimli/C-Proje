@@ -46,6 +46,9 @@ namespace ArizaTakipSistemi.API.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal? TahminiMaliyet { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? HarcananMasraf { get; set; }
+
         public DateTime OlusturulmaTarihi { get; set; } = DateTime.Now;
 
         public DateTime? GuncellemeTarihi { get; set; }

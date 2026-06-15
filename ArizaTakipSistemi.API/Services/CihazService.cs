@@ -39,6 +39,10 @@ namespace ArizaTakipSistemi.API.Services
 
         public async Task<Cihaz> CihazEkleAsync(Cihaz cihaz)
         {
+            var seriNoVarMi = await _context.Cihazlar.AnyAsync(c => c.SeriNumarasi == cihaz.SeriNumarasi);
+            if (seriNoVarMi)
+                throw new InvalidOperationException($"Bu seri numarasına sahip başka bir cihaz zaten var: {cihaz.SeriNumarasi}");
+
             _context.Cihazlar.Add(cihaz);
             await _context.SaveChangesAsync();
             return cihaz;
@@ -48,6 +52,13 @@ namespace ArizaTakipSistemi.API.Services
         {
             var mevcut = await _context.Cihazlar.FindAsync(id);
             if (mevcut == null) return null;
+
+            if (mevcut.SeriNumarasi != cihaz.SeriNumarasi)
+            {
+                var seriNoVarMi = await _context.Cihazlar.AnyAsync(c => c.SeriNumarasi == cihaz.SeriNumarasi);
+                if (seriNoVarMi)
+                    throw new InvalidOperationException($"Bu seri numarasına sahip başka bir cihaz zaten var: {cihaz.SeriNumarasi}");
+            }
 
             mevcut.MusteriAdi = cihaz.MusteriAdi;
             mevcut.MusteriTelefon = cihaz.MusteriTelefon;
@@ -66,6 +77,10 @@ namespace ArizaTakipSistemi.API.Services
         {
             var mevcut = await _context.Cihazlar.FindAsync(id);
             if (mevcut == null) return false;
+
+            var arizasiVarMi = await _context.Arizalar.AnyAsync(a => a.CihazId == id);
+            if (arizasiVarMi)
+                throw new InvalidOperationException("Bu cihaza ait arıza kayıtları bulunmaktadır. Önce cihaza ait arıza kayıtlarını silmelisiniz.");
 
             _context.Cihazlar.Remove(mevcut);
             await _context.SaveChangesAsync();

@@ -54,6 +54,7 @@ namespace ArizaTakipSistemi.API.Services
             mevcut.ArizaTanimi = ariza.ArizaTanimi;
             mevcut.YapilanIslem = ariza.YapilanIslem;
             mevcut.TahminiMaliyet = ariza.TahminiMaliyet;
+            mevcut.HarcananMasraf = ariza.HarcananMasraf;
             mevcut.KullaniciId = ariza.KullaniciId;
             mevcut.GuncellemeTarihi = DateTime.Now;
             

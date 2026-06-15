@@ -53,6 +53,12 @@ namespace ArizaTakipSistemi.API.Services
 
         public async Task<Kullanici> KullaniciEkleAsync(Kullanici kullanici)
         {
+            var emailExists = await _context.Kullanicilar.AnyAsync(k => k.Email == kullanici.Email);
+            if (emailExists)
+            {
+                throw new InvalidOperationException("Bu e-posta adresi zaten kullanılıyor.");
+            }
+
             kullanici.OlusturulmaTarihi = DateTime.Now;
             _context.Kullanicilar.Add(kullanici);
             await _context.SaveChangesAsync();
@@ -63,6 +69,15 @@ namespace ArizaTakipSistemi.API.Services
         {
             var mevcutKullanici = await _context.Kullanicilar.FindAsync(id);
             if (mevcutKullanici == null) return null;
+
+            if (mevcutKullanici.Email != kullanici.Email)
+            {
+                var emailExists = await _context.Kullanicilar.AnyAsync(k => k.Email == kullanici.Email);
+                if (emailExists)
+                {
+                    throw new InvalidOperationException("Bu e-posta adresi zaten başka bir kullanıcı tarafından kullanılıyor.");
+                }
+            }
 
             mevcutKullanici.Ad = kullanici.Ad;
             mevcutKullanici.Soyad = kullanici.Soyad;

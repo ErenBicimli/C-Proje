@@ -83,12 +83,12 @@ public partial class RegisterView : ContentPage
             }
             else
             {
-                GosterHata("Kayıt başarısız! Bu e-posta zaten kullanılıyor olabilir.");
+                GosterHata("Kayıt başarısız! Lütfen bilgilerinizi kontrol edin.");
             }
         }
         catch (Exception ex)
         {
-            GosterHata($"Bağlantı hatası: {ex.Message}");
+            GosterHata(ex.Message);
         }
         finally
         {

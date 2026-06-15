@@ -91,10 +91,6 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Gideri sıfırlama (yönetici için iyi olur) -->
-            <Button Text="Gider Sayacını Sıfırla" BackgroundColor="#2a2a4a" TextColor="#aabbcc"
-                    CornerRadius="8" HeightRequest="36" FontSize="11" Clicked="GiderSifirla_Clicked"/>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
