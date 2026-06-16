@@ -94,14 +94,16 @@ public partial class ArizaListesiView : ContentPage
             sonuc = sonuc.Where(a => a.OlusturulmaTarihi >= bas && a.OlusturulmaTarihi <= bit);
         }
 
-        var arama = AramaCubugu?.Text?.Trim();
+        var arama = AramaCubugu?.Text?.Trim()?.ToLowerInvariant();
         if (!string.IsNullOrWhiteSpace(arama))
         {
             sonuc = sonuc.Where(a =>
-                (a.ArizaTanimi?.Contains(arama, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                (a.Kategori?.Contains(arama, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (a.ArizaTanimi != null && a.ArizaTanimi.ToLowerInvariant().Contains(arama)) ||
+                (a.Kategori != null && a.Kategori.ToLowerInvariant().Contains(arama)) ||
+                (a.DurumAdi != null && a.DurumAdi.ToLowerInvariant().Contains(arama)) ||
+                (a.OncelikAdi != null && a.OncelikAdi.ToLowerInvariant().Contains(arama)) ||
                 (a.Cihaz != null && a.Cihaz.CihazBilgisi != null &&
-                 a.Cihaz.CihazBilgisi.Contains(arama, StringComparison.OrdinalIgnoreCase)));
+                 a.Cihaz.CihazBilgisi.ToLowerInvariant().Contains(arama)));
         }
 
         // Öncelik durumuna göre azalan sıralama; aynı önceliklilerde tarih azalan.
@@ -120,7 +122,7 @@ public partial class ArizaListesiView : ContentPage
         BosDurumLayout.IsVisible = !_gosterilenArizalar.Any();
     }
 
-    private void AramaCubugu_TextChanged(object sender, TextChangedEventArgs e) => FiltreleriUygula();
+    private void AramaCubugu_SearchButtonPressed(object sender, EventArgs e) => FiltreleriUygula();
     private void KategoriFiltre_Changed(object sender, EventArgs e) => FiltreleriUygula();
     private void TarihFiltresi_Toggled(object sender, ToggledEventArgs e) => FiltreleriUygula();
     private void TarihSecildi(object sender, DateChangedEventArgs e) => FiltreleriUygula();

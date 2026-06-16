@@ -10,6 +10,7 @@ namespace ArizaTakipSistemi.MAUI.Views.Auth;
 
 public partial class LoginView : ContentPage
 {
+    private const string GIRIS_YAPILDI_KEY = "GirisYapildi";
     private readonly IArizaApiService _apiService;
 
     public LoginView(IArizaApiService apiService)
@@ -43,7 +44,9 @@ public partial class LoginView : ContentPage
                 Preferences.Set("KullaniciId", kullanici.KullaniciId);
                 Preferences.Set("KullaniciAd", kullanici.TamAd);
                 Preferences.Set("KullaniciRol", kullanici.Rol);
-                Preferences.Set("GirisYapildi", true);
+                Preferences.Set(GIRIS_YAPILDI_KEY, true);
+
+                await DisplayAlert("Başarılı", "Giriş Başarılı", "Tamam");
 
                 // Ana sayfaya yönlendir
                 Application.Current!.MainPage = new AppShell();
